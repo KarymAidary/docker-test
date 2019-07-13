@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/:/backend
+    working_dir: /backend/
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  frontend:
+    image: node:latest
+#    command: sh entrypoint.sh
+    working_dir: /frontend
+    volumes:
+      - ./frontend/:/frontend
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:8080
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend/build:/var/www/frontend
+    depends_on:
+      - backend
