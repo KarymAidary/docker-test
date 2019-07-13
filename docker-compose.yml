@@ -11,15 +11,17 @@ services:
     working_dir: /backend/
     command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
       - db
   frontend:
     image: node:latest
-#    command: sh entrypoint.sh
+    command: sh entrypoint.sh
     working_dir: /frontend
     volumes:
       - ./frontend/:/frontend
+    ports:
+      - 3000:3000
   nginx:
     image: nginx:latest
     ports:
