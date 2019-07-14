@@ -10,11 +10,17 @@ services:
       - ./backend/:/backend
     working_dir: /backend/
     command: uwsgi --master --ini uwsgi.ini
+    env_file:
+      - ./backend/.env
+    environment:
+      - SECRET_KEY=SECRET_KEY
     ports:
       - 8000:8000
     depends_on:
       - db
 #      - worker
+    expose:
+      - 8000
   frontend:
     image: node:latest
     command: sh entrypoint.sh
