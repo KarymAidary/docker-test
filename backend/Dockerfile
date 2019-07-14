@@ -5,4 +5,3 @@ COPY requirements.txt /backend/
 RUN pip install -r requirements.txt
 COPY . /backend/
 COPY uwsgi.ini /backend/
-EXPOSE 8000
